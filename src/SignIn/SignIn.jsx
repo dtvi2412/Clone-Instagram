@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-import { auth } from '../configFirebase';
+import { auth, google } from '../configFirebase';
 import Footer from '../Footer/Footer';
 import Err from '../PopupErr/Err';
 import SignUp from '../SignUp/SignUp';
 import './SignIn.scss';
+import * as firebase from 'firebase';
 function SignIn() {
   const img =
     'https://www.instagram.com/static/images/homepage/home-phones.png/43cc71bb1b43.png';
@@ -124,6 +125,21 @@ function SignIn() {
   const handleCloseSignUp = () => {
     setSignup(false);
   };
+  //google
+  const handleGoogle = () => {
+    firebase
+      .auth()
+      .signInWithPopup(google)
+      .then((rs) => {
+        // let token = rs.credential.accessToken;
+        let user = rs.user;
+        localStorage.setItem('user', JSON.stringify(true));
+        // console.log('User>>Google', user);
+      })
+      .catch((err) => {
+        console.log('Error : handle error here>>', err.code);
+      });
+  };
   return (
     <React.Fragment>
       <div className="signIn">
@@ -163,10 +179,13 @@ function SignIn() {
                 </label>
               </div>
               <input type="submit" className="dangnhap" value="Đăng Nhập" />
+              <div className="login" onClick={handleGoogle}>
+                <h2>Đăng nhập bằng Google</h2>
+              </div>
             </form>
-            <div className="button" onClick={openSignUp}>
+            <div className="button">
               <h1>
-                Bạn không có tài khoản?<span>Đăng ký</span>
+                Bạn không có tài khoản?<span onClick={openSignUp}>Đăng ký</span>
               </h1>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import './Footer.scss';
+import CopyrightIcon from '@material-ui/icons/Copyright';
 function Footer() {
   return (
     <footer className="footer">
@@ -39,7 +40,10 @@ function Footer() {
           <a href="#">NGÔN NGỮ</a>
         </li>
       </ul>
-      <p>2020 INSTAGRAM FROM FACEBOOK</p>
+      <p>
+        <CopyrightIcon />
+        <h1> 2020 INSTAGRAM FROM FACEBOOK</h1>
+      </p>
     </footer>
   );
 }

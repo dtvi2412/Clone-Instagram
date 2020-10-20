@@ -15,14 +15,84 @@
         left:50%;
         transform: translate(-50%,-50%);
         background-color: #fff;
+
+        animation: contentAni 0.3s linear 0s 1 alternate;
         form{
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             padding:80px;
+    
+            .info{
+                display: flex;
+                flex-direction: column;
+                position: relative; text-align: center;     
+                width: 100%;
+                input{
+                    padding:10px 10px;
+                    margin:5px 5px;
+              
+                   
+                    &:focus{
+                        // border: none;
+                        outline: none;
+                    }
+                }
+                .label{
+                    position: absolute;
+                    top:50%;
+                    left:10px;
+                    transform: translateY(-50%);
+
+                    color:gray;
+                    font-size:0.8rem;
+                    transition: .5s all;
+                }
+                .labelFocus{
+                    position: absolute;
+                    top:12px;
+                    left:10px;
+                    transform: translateY(-6px);
+
+                    color:gray;
+                    font-size:0.6rem;
+                    transition: .5s all;
+                }
+                
+            }
             h1{
                 font-family: fir;
+                font-size:1.5rem;
+            }
+            p{
+                color:gray;
+                font-size:0.9rem;
+            }
+            .btnsignin{
+                margin:5px 0;
+                width: 100%;
+
+                background-color: #0095f6;
+                padding:10px 20px;
+                color:#fff;
+                border:none;
+                &:focus{
+                    border: none;
+                    outline: none;
+                }
+            }
+            .login{
+                background-color: orangered;
+                color:#fff; width: 100%;
+                text-align: center;
+                &:hover{
+                    cursor: pointer;
+                }
+                h2{
+                    font-size:0.7rem;
+                    padding:5px 10px;
+                }
             }
         }
         .icon{
@@ -36,5 +106,33 @@
                 }
             }
         }
+    }
+}
+@media only screen and (max-width:710px){
+    .signup{
+        &__content{
+            form{
+                padding:10px;
+                p{
+                    font-size:0.7rem;
+                }
+                .info{
+                    input{
+                        // padding:5px;
+                        // margin:10px 0;
+                        // width: 100%;
+                        // margin:5px 5px;
+                    }
+                }
+            }
+        }
+    }
+}
+@keyframes contentAni{
+    from{
+        top:-100%;
+    }
+    to{
+        top:50%;
     }
 }
