@@ -1,0 +1,268 @@
+/* Change Autocomplete styles in Chrome*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: none;
+  -webkit-text-fill-color: #111;
+//   -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+  transition: background-color 5000s ease-in-out 0s;
+  outline: none;
+}
+
+.header{
+    // min-width: 261px;
+    padding:10px 0;
+    background-color: rgb(255,255,255);
+    border-bottom: 1px solid rgba(0,0,0,0.1);  
+
+    position: fixed;
+    top:0;
+    left:0;
+    right: 0;
+
+    z-index: 999;
+    &__content{
+        width: 60%;
+        margin:0 auto;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         &__logo{
+            h1{
+                font-family: fir;
+                font-size: 1.7rem;
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+         }
+         &__found{
+             position: relative;
+
+             padding:5px 20px;
+             border-radius: 2px;
+             background-color: rgb(250,250,250);
+             border:1px solid rgba(0,0,0,0.2);
+             display: flex;
+             justify-content: center;
+             align-items: center;
+            //  transition: all .5s;
+             &__search{
+                position: absolute;
+                top:55%;
+                left:30%;
+                transform: translate(-30%,-50%);
+             
+                 & > .MuiSvgIcon-root{
+                    font-size:0.9rem;
+                    text-align: center;
+                    color:gray;
+                 }
+             }
+             &__searchNew{      
+                position: absolute;
+                top:55%;
+                left:8px;
+                transform: translate(0,-50%);
+          
+                 & > .MuiSvgIcon-root{
+                    font-size:0.9rem;
+                    text-align: center;
+                    color:gray;
+                 }
+             }
+             .close{
+                position: absolute;
+                top:50%;
+                right:10px;
+                transform: translateY(-50%);
+                visibility: hidden;
+                
+                 & > .MuiSvgIcon-root{
+                    font-size:0.8rem;   color:gray;
+                 }
+             }
+             input{
+                border:none;
+                background-color: rgb(250,250,250);
+                text-align: center;
+                color:gray;
+                font-weight: 100;
+                font-size:1rem;
+                &:focus{
+                    // border:1px solid rgba(0,0,0,0.2);
+                    border: none;
+                    outline: none;
+                    text-align: left;
+                }
+           
+             }
+         }
+         &__icons{
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             position: relative;
+             &__icon{
+                 margin:0 10px;
+          
+                 & >.MuiSvgIcon-root{
+                     font-size:1.9rem;
+                 }
+                 &:hover{
+                    cursor: pointer;
+                }
+                 &__avarta{
+                     width: 30px;
+                     height: 30px;
+                     border-radius: 50%;
+                     overflow: hidden;
+                     position: relative;
+                     border: 1px solid black;
+                     img{     
+                        border-radius: 50%;
+                        width: 100%;
+                        height: 100%; 
+     
+                        object-fit: contain;
+
+                        position: absolute;
+                        top:50%;
+                        left:50%;
+                        transform: translate(-50%,-50%);
+
+                        padding:2px;
+                                 
+              
+                     }
+                     &:hover{
+                         cursor: pointer;
+                     }
+                 }
+              
+             }
+             &__info{
+                // border:1px solid red;
+                position: absolute;
+                top: 45px;
+                right: 0;
+                // padding: 20px;
+              
+
+                box-shadow: 0px 0px 3px 0px #d4caca;
+                background-color: rgb(255,255,255);
+
+               
+                
+                z-index: 10000;
+                &::before{
+                    content: '';
+                    width: 15px;
+                    height: 15px;
+
+                    box-shadow: 0px 0px 3px 0px #d4caca;
+                    // z-index: 9999;
+
+                    z-index: -1;
+
+                    border: 1px solid #d4caca;
+
+                    position: absolute;
+                    top:-7px;
+                    right:20px;
+             
+                    background-color: white;
+                    transform: rotate(45deg);
+                   
+                }
+                
+                //TEXT
+                &__text{
+                    width: 100%;
+                    padding: 10px 20px;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    
+                   background-color: rgb(255,255,255);
+                    
+                       
+                        & > .MuiSvgIcon-root{
+                            margin:0 5px;
+                            text-align: center;font-size:1.2rem;    color:rgba(0,0,0,0.8);
+                        }
+                  
+                    h3{
+                        font-size:1.1rem;
+                        color:rgba(0,0,0,0.6);
+                        font-weight: 500;
+                        text-align: center;
+                    }
+                    &:hover{
+                        cursor: pointer;
+                        background-color: rgb(250,250,250);
+                        // background-color: red;
+                    }
+                }
+       
+                .dangxuat{
+                    border-top:1px solid rgba(0,0,0,0.1);
+                }
+            }
+         }
+    }
+
+}
+
+//760px
+@media only screen and (max-width:760px){
+    .header{
+        &__content{ 
+            justify-content: space-around;
+            width: 100%;
+        }
+    }
+}
+//605px
+@media only screen and (max-width:605px){
+    .header{
+        &__content{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            &__found{
+                display: none;
+            }
+        }
+    }
+}
+
+//385px
+@media only screen and (max-width:385px){
+    .header{
+        &__content{
+     
+            &__logo{
+                h1{
+                    font-size:1rem;
+                }
+            }
+            &__icons{
+                &__icon{
+                    & >.MuiSvgIcon-root{
+                        font-size:1rem;
+                    }
+                }
+            }
+          
+        }
+    }
+}

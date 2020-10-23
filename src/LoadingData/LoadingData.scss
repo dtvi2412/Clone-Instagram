@@ -1,0 +1,96 @@
+.ldData{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+  
+    .point1{
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        box-shadow: 0px 0px 3px 1px #827272;
+        
+        background-color: greenyellow;
+
+        animation: poit1 0.5s linear  infinite alternate;
+    }
+
+    .point2{
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin:0 10px;
+        background-color: #c17a93;
+        box-shadow: 0px 0px 3px 1px #827272;
+        animation: poit2 0.5s linear  infinite alternate;
+    }
+
+    .point3{
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        box-shadow: 0px 0px 3px 1px #827272;
+        background-color: #59b3dc;
+
+        animation: poit3 0.5s linear  infinite alternate;
+    }
+}
+@for $i from 1 through 3{
+    @keyframes poit#{$i}{
+        @if($i == 1){
+            from{
+                transform: translateY(-10px);
+            }
+            to{
+                transform: translateY(10px);
+            }
+        }
+        @else if($i == 2){
+            from{
+                transform: translateY(0px);
+            }
+            to{
+                transform: translateY(-10px);
+            }
+        }
+        @else if($i == 3){
+            from{
+                transform: translateY(-10px);
+            }
+            to{
+                transform: translateY(10px);
+            }
+        }
+     
+    }
+    
+}
+
+// @keyframes poi1{
+
+//     from{
+//         transform: translateY(-10px);
+//     }
+//     to{
+//         transform: translateY(10px);
+//     }
+// }
+
+// @keyframes poi1{
+
+//     from{
+//         transform: translateY(-10px);
+//     }
+//     to{
+//         transform: translateY(10px);
+//     }
+// }
+// @keyframes poi1{
+
+//     from{
+//         transform: translateY(-10px);
+//     }
+//     to{
+//         transform: translateY(10px);
+//     }
+// }

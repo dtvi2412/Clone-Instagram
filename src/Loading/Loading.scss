@@ -1,0 +1,74 @@
+.loading{
+    width: 100%;
+    height:100%;
+
+    position: fixed;
+   
+    top:0;
+    left:0;
+    // background-color: rgba(0,0,0,0.7);
+    .point1{
+        position: absolute;
+        top:50%;
+        left: calc(50% - 20px);
+        transform: translate(calc(-50% - 20px),-50%);
+        box-shadow: 0px 0px 3px 1px #827272;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #ffaaaa;
+
+        animation: poi1 0.5s linear 0s infinite alternate;
+    }
+    .point2{
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        box-shadow: 0px 0px 3px 1px #827272;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #e86d6d;
+
+        animation: poi2 0.5s linear 0s infinite alternate;
+    }
+    .point3{
+        position: absolute;
+        top:50%;
+        left: calc(50% + 20px);
+        transform: translate(calc(-50% + 20px),-50%);
+        box-shadow: 0px 0px 3px 1px #827272;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #91aabd;
+
+        animation: poi3 0.5s linear 0s infinite alternate;
+    }
+}
+@keyframes poi1{
+    from{
+       top:45%;
+    }
+    to{
+        top:50%;
+    }
+}
+@keyframes poi2{
+    from{
+       top:50%;
+    }
+    to{
+        top:45%;
+    }
+}
+
+@keyframes poi3{
+    from{
+        top:45%;
+    }
+    to{
+        top:50%;
+    }
+}

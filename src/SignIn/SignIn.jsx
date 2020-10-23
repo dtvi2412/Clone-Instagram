@@ -106,7 +106,7 @@ function SignIn() {
     let passwordip = document.getElementById('passwordip');
     let passwordlb = document.getElementById('passwordlb');
     //Password
-    console.log(passwordip.value);
+    // console.log(passwordip.value);
     if (passwordip.value !== '') {
       passwordlb.classList.remove('label');
       passwordlb.classList.add('labelFocus');

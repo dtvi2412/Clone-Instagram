@@ -1,3 +1,11 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+  
+/* SET BACKGROUND */
+/* background-color: rgb(255,255,255); */
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,8 +13,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-width: 200px;
- 
+  min-width: 261px;
+ background-color: rgb(250,250,250);
 }
 
 code {
