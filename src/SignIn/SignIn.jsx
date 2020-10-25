@@ -73,6 +73,10 @@ function SignIn() {
         .then((rs) => {
           //   console.log(rs);
           localStorage.setItem('user', JSON.parse(true));
+
+          // return rs.user.updateProfile({
+          //   displayName: ipName.value,
+          // });
         })
         .catch((e) => {
           // alert(e.message);

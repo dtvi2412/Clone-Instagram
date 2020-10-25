@@ -91,7 +91,11 @@ function Header({ taikhoan }) {
               onClick={() => setInfo(!info)}
             >
               {/* GET IMAGE USER */}
-              {img ? <img src={img} /> : ''}
+              {img ? (
+                <img src={img} />
+              ) : (
+                <img src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png" />
+              )}
             </div>
           </div>
 

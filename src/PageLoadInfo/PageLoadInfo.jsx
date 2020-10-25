@@ -6,8 +6,10 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import ShareIcon from '@material-ui/icons/Share';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
-import { auth } from '../configFirebase';
+import { auth, configFirebase } from '../configFirebase';
 import * as firebase from 'firebase';
+
+import InfiniteScroll from 'react-infinite-scroll-component';
 function PageLoadInfo() {
   //Declare limit slice (Khai bao)
   const [limit, setLimit] = useState(30);
@@ -85,13 +87,87 @@ function PageLoadInfo() {
         'A WARRIOR ASCETIC CONSUMED WITH AN ELECTRIC PASSION FOR JUSTICE, LEE SIN CLIMBED THE MOUNTAIN OF THE STORM DRAGON, HOPING TO RECEIVE HIS BLESSING. HAVING RETURNED FROM THE SUMMIT AS A LEGENDARY DRAGONMANCER, LEE SIN NOW DOLES OUT THUNDEROUS PUNISHMENT TO VILLAINS EVERYWHERE—EVER UNDER THE WATCHFUL EYE OF HIS DRACONIC PATRON.😍😍😍',
       time: '5 NGÀY TRƯỚC',
     },
+    {
+      id: 5,
+      name: 'Vân Sơn',
+      avatar:
+        'https://avatar-nct.nixcdn.com/singer/avatar/2016/01/25/4/1/1/7/1453717938234_600.jpg',
+      image: 'https://i.ytimg.com/vi/K4zCYvKZAXA/maxresdefault.jpg',
+      like: 78333,
+      checkLike: true,
+      limit: limit,
+      description:
+        'VAN SON 😊 Cambodia Film Hài Part 1| Đạo Nghĩa Giang Hồ | Vân Sơn- Bảo Liêm- Việt Thảo',
+      time: '5 NGÀY TRƯỚC',
+    },
+    {
+      id: 6,
+      name: 'Vân Sơn',
+      avatar:
+        'https://avatar-nct.nixcdn.com/singer/avatar/2016/01/25/4/1/1/7/1453717938234_600.jpg',
+      image: 'https://i.ytimg.com/vi/af1WG2VvY0U/maxresdefault.jpg',
+      like: 86000,
+      checkLike: true,
+      limit: limit,
+      description:
+        'VAN SON 😊 Hài Kịch | NGƯỜI BẠN TỐT | Vân Sơn - Bảo Liêm - Quang Minh - Hồng Đào - Diểm Liên',
+      time: '6 NGÀY TRƯỚC',
+    },
+    {
+      id: 7,
+      name: 'kingjames',
+      avatar:
+        'https://i.pinimg.com/736x/b9/93/eb/b993eb9d72c91a3d843943c5641c2fb2.jpg',
+      image:
+        'https://www.bosshunting.com.au/wp-content/uploads/2020/05/art_and_motion_news_554_cAmqeX_lebronjames-action-2-scaled.jpg',
+      like: 105983,
+      checkLike: true,
+      limit: limit,
+      description:
+        'Year 17 and Still At It! 😤😤😤 Lets Go!!#RevengeSeasonContinuesSoon #ThekidfromAKRON🤴🏾 #WashedKing👑 #KingMe👑 #PlatiumBeardShii',
+      time: '7 NGÀY TRƯỚC',
+    },
   ];
   const [dataPage, setDataPage] = useState([]);
+  //Create Comment
+  // let localComment = JSON.parse(localStorage.getItem('comment'));
+  // const [comment, setComment] = useState(
+  //   localComment === null ? [] : localComment
+  // );
 
+  //Comment in Database Firebase
+  const [comment, setComment] = useState([]);
   ///DATA IN DATAPAGE
   useEffect(() => {
+    console.log('display Name: ', auth.currentUser.displayName);
+    // console.log('AUTH : ', auth.currentUser.email);
     setDataPage(data);
+
+    //GET DATA COMMENT
+
+    let database = firebase.database().ref('commentNow');
+
+    database.on('value', (notes) => {
+      let arr = [];
+      notes.forEach((element) => {
+        let obj = {};
+        obj.id = element.key;
+        obj.idUser = element.val().idUser;
+        obj.name = element.val().name;
+        obj.message = element.val().message;
+        obj.mail = element.val().mail;
+        arr.push(obj);
+      });
+      // console.log('arr', arr);
+      setComment(arr);
+    });
   }, []);
+
+  useEffect(() => {
+    //Set Comment Local
+    // localStorage.setItem('comment', JSON.stringify(comment));
+  }, [comment]);
+  //const push Data
 
   const input = useRef();
   // console.log(input);
@@ -113,14 +189,40 @@ function PageLoadInfo() {
   const handlePushMessage = (id) => {
     let valueInput = document.querySelectorAll('.valueInput');
     let buttonID = document.querySelectorAll('.button');
+
     for (let i = 0; i < valueInput.length; i++) {
       if (i === id) {
-        // alert(valueInput[i].value);
-        // console.log(valueInput[i].value);
+        let db = firebase.database().ref('commentNow');
+
+        db.push({
+          id: Date.now(),
+          idUser: id,
+          name:
+            auth.currentUser.displayName === null
+              ? ''
+              : auth.currentUser.displayName,
+          message: valueInput[i].value,
+          mail: auth.currentUser.email,
+        });
+
+        //Create Data comment with USER
+        // setComment([
+        //   ...comment,
+        //   {
+        //     id: Date.now(),
+        //     idUser: id,
+        //     message: valueInput[i].value,
+        //     // time: new Date().getHours(),
+        //     name: auth.currentUser.displayName,
+        //     email: auth.currentUser.email,
+        //   },
+        // ]);
+
         valueInput[i].value = '';
         buttonID[i].setAttribute('style', 'opacity:0.4;pointer-events:none');
       }
     }
+    // setComment(cloneMess);
   };
 
   // Handle Like
@@ -169,127 +271,167 @@ function PageLoadInfo() {
     });
     setDataPage(cloneData);
   };
+  //PAGE
+
+  const [page, setPage] = useState(1);
+
+  //Handle Count Comment
+  // const [countComment, setCountComment] = useState(0);
+  // const handleXemComment = (id) => {
+  //   let cm = comment.filter((item) => item.idUser === id);
+  //   console.log('Comment', cm.length);
+  //   setCountComment(cm.length);
+  // };
 
   //Handle Load Item Page
   const loadItemPage = () => {
     if (dataPage !== null) {
-      return dataPage?.map((item) => {
-        return (
-          <div key={item.id} className="product__content__item">
-            {/* Avarta */}
-            <div className="product__content__item__first">
-              <div className="product__content__item__first__left">
-                <div className="img">
-                  <img src={item.avatar} alt="Avarta image" />
-                </div>
-                <p>{item.name}</p>
-              </div>
-              <div className="product__content__item__first__right">
-                <ListIcon />
-              </div>
-            </div>
-            {/* end Avartar */}
-            {/* Begin Image Full */}
-            <div className="product__content__item__containImage">
-              <img src={item.image} />
-            </div>
-            {/* End Image  */}
+      return (
+        //Scroll Infinity
 
-            {/* Begin Box Like */}
-            <div className="product__content__item__like">
-              <div className="product__content__item__like__left">
-                {item.checkLike ? (
-                  <FavoriteIcon
-                    className={`${item.checkLike ? 'like' : 'unlike'}`}
-                    onClick={() => handleLike(item.id)}
-                  />
-                ) : (
-                  <FavoriteBorderIcon
-                    className={`${item.checkLike ? 'like' : 'unlike'}`}
-                    onClick={() => handleLike(item.id)}
-                  />
-                )}
-                {/* <FavoriteIcon
+        <InfiniteScroll
+          dataLength={dataPage.length}
+          next={() => setPage(page + 1)}
+          hasMore={true}
+        >
+          {dataPage?.map((item) => {
+            return (
+              <div key={item.id} className="product__content__item">
+                {/* Avarta */}
+                <div className="product__content__item__first">
+                  <div className="product__content__item__first__left">
+                    <div className="img">
+                      <img src={item.avatar} alt="Avarta image" />
+                    </div>
+                    <p>{item.name}</p>
+                  </div>
+                  <div className="product__content__item__first__right">
+                    <ListIcon />
+                  </div>
+                </div>
+                {/* end Avartar */}
+                {/* Begin Image Full */}
+                <div className="product__content__item__containImage">
+                  <img src={item.image} />
+                </div>
+                {/* End Image  */}
+
+                {/* Begin Box Like */}
+                <div className="product__content__item__like">
+                  <div className="product__content__item__like__left">
+                    {item.checkLike ? (
+                      <FavoriteIcon
+                        className={`${item.checkLike ? 'like' : 'unlike'}`}
+                        onClick={() => handleLike(item.id)}
+                      />
+                    ) : (
+                      <FavoriteBorderIcon
+                        className={`${item.checkLike ? 'like' : 'unlike'}`}
+                        onClick={() => handleLike(item.id)}
+                      />
+                    )}
+                    {/* <FavoriteIcon
                   className={`${item.checkLike ? 'like' : 'unlike'}`}
                   onClick={() => handleLike(item.id)}
                 /> */}
-                <ChatBubbleOutlineIcon />
-                <ShareIcon />
-              </div>
-              <div className="product__content__item__like__right">
-                <BookmarkBorderIcon />
-              </div>
-            </div>
-            {/* End Box Like */}
-            {/* View Like */}
-            <div className="product__content__item__view">
-              <p>{item.like.toLocaleString()} lượt thích</p>
-            </div>
-            {/* End view Like */}
-            {/* Name and Comment */}
-            <div className="product__content__item__comment">
-              <h1>{item.name}</h1>
-              <p>
-                {item.description.length > item.limit ? (
-                  <React.Fragment>
-                    {`${item.description.slice(0, item.limit)}... `}
-                    <span
-                      className="xemThem"
-                      onClick={() => {
-                        // setLimit(limit + 200);
-                        handleViewMore(item.id);
-                      }}
-                    >
-                      thêm
-                    </span>
-                  </React.Fragment>
-                ) : (
-                  item.description
-                )}
-              </p>
-            </div>
-            {/* End Name and comment */}
-
-            {/* Begin send Comment */}
-            {item.comment?.map((ms) => {
-              return (
-                <div
-                  key={ms.id}
-                  className="product__content__item__sendMessage"
-                >
-                  <h1>{ms.name}</h1>
-                  <p>{ms.message}</p>
+                    <ChatBubbleOutlineIcon />
+                    <ShareIcon />
+                  </div>
+                  <div className="product__content__item__like__right">
+                    <BookmarkBorderIcon />
+                  </div>
                 </div>
-              );
-            })}
-            {/* End send Comment */}
+                {/* End Box Like */}
+                {/* View Like */}
+                <div className="product__content__item__view">
+                  <p>{item.like.toLocaleString()} lượt thích</p>
+                </div>
+                {/* End view Like */}
+                {/* Name and Comment */}
+                <div className="product__content__item__comment">
+                  <h1>{item.name}</h1>
+                  <p>
+                    {item.description.length > item.limit ? (
+                      <React.Fragment>
+                        {`${item.description.slice(0, item.limit)}... `}
+                        <span
+                          className="xemThem"
+                          onClick={() => {
+                            // setLimit(limit + 200);
+                            handleViewMore(item.id);
+                          }}
+                        >
+                          thêm
+                        </span>
+                      </React.Fragment>
+                    ) : (
+                      item.description
+                    )}
+                  </p>
+                </div>
+                {/* End Name and comment */}
 
-            {/* Begin Time */}
-            <div className="product__content__item__time">
-              <p>{item.time}</p>
-            </div>
-            {/* End Time */}
-            {/* Begin Add Message */}
-            <div className="product__content__item__message">
-              <input
-                ref={input}
-                placeholder="Thêm bình luận..."
-                onChange={handleAddMessage}
-                className="valueInput"
-              />
-              <button
-                onClick={() => {
-                  handlePushMessage(item.id);
-                }}
-                className="button"
-              >
-                Đăng
-              </button>
-            </div>
-            {/* End Add Message */}
-          </div>
-        );
-      });
+                {/* Begin send Comment */}
+
+                {comment?.map((ms) => {
+                  if (item.id === ms.idUser) {
+                    return (
+                      <div
+                        key={ms.id}
+                        className="product__content__item__sendMessage"
+                      >
+                        {/* <h1
+                          onClick={() => {
+                            handleXemComment(item.id);
+                          }}
+                        >
+                          Xem tất cả bình luận{countComment}
+                        </h1> */}
+                        {/* If name null load name = email */}
+                        {ms.name === '' ? (
+                          // <h1>{ms.email}</h1>
+                          <h1>{ms.mail}</h1>
+                        ) : (
+                          <h1>{ms.name}</h1>
+                        )}
+
+                        <p>{ms.message}</p>
+                      </div>
+                    );
+                  }
+                })}
+                {/* End send Comment */}
+
+                {/* Begin Time */}
+                <div className="product__content__item__time">
+                  <p>{item.time}</p>
+                </div>
+                {/* End Time */}
+                {/* Begin Add Message */}
+                <div className="product__content__item__message">
+                  <input
+                    ref={input}
+                    placeholder="Thêm bình luận..."
+                    onChange={handleAddMessage}
+                    className="valueInput"
+                  />
+                  <button
+                    onClick={() => {
+                      handlePushMessage(item.id);
+                    }}
+                    className="button"
+                  >
+                    Đăng
+                  </button>
+                </div>
+                {/* End Add Message */}
+              </div>
+            );
+          })}
+        </InfiniteScroll>
+
+        //End Scroll Infinity
+      );
     }
   };
   return (
