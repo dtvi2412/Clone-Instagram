@@ -10,6 +10,7 @@ import { auth, configFirebase } from '../configFirebase';
 import * as firebase from 'firebase';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
+import LoadingData from '../LoadingData/LoadingData';
 function PageLoadInfo() {
   //Declare limit slice (Khai bao)
   const [limit, setLimit] = useState(30);
@@ -24,13 +25,6 @@ function PageLoadInfo() {
       like: 49989,
       checkLike: true,
       description: '🥰🥰 #vận_mon #đàm_tùng_vận',
-      comment: [
-        {
-          id: 0,
-          name: 'jone09',
-          message: 'Hello im your fan 🥰🥰',
-        },
-      ],
       time: '7 GIỜ TRƯỚC',
     },
     {
@@ -139,9 +133,31 @@ function PageLoadInfo() {
   const [comment, setComment] = useState([]);
   ///DATA IN DATAPAGE
   useEffect(() => {
-    console.log('display Name: ', auth.currentUser.displayName);
+    // console.log('display Name: ', auth.currentUser.displayName);
     // console.log('AUTH : ', auth.currentUser.email);
-    setDataPage(data);
+
+    // setDataPage(data);
+
+    //GET DATAPAGE FIREBASE
+    let dataPageFirebase = firebase.database().ref('dataPage');
+
+    dataPageFirebase.on('value', (notes) => {
+      let arr = [];
+      notes.forEach((element) => {
+        let obj = {};
+        obj.id = element.val().id;
+        obj.avatar = element.val().avatar;
+        obj.checkLike = element.val().checkLike;
+        obj.description = element.val().description;
+        obj.image = element.val().image;
+        obj.like = element.val().like;
+        obj.name = element.val().name;
+        obj.limit = element.val().limit;
+        obj.time = element.val().time;
+        arr.push(obj);
+      });
+      setDataPage(arr);
+    });
 
     //GET DATA COMMENT
 
@@ -285,7 +301,10 @@ function PageLoadInfo() {
 
   //Handle Load Item Page
   const loadItemPage = () => {
-    if (dataPage !== null) {
+    if (dataPage.length === 0) {
+      return <LoadingData />;
+    }
+    if (dataPage.length !== 0) {
       return (
         //Scroll Infinity
 
