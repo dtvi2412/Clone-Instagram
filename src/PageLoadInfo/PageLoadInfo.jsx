@@ -11,6 +11,7 @@ import * as firebase from 'firebase';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
 import LoadingData from '../LoadingData/LoadingData';
+import LoadingDataPage from '../LoadingDataPage/LoadingDataPage';
 function PageLoadInfo() {
   //Declare limit slice (Khai bao)
   const [limit, setLimit] = useState(30);
@@ -290,6 +291,92 @@ function PageLoadInfo() {
   //PAGE
 
   const [page, setPage] = useState(1);
+  const fetDataLoad = () => {
+    const randomLike = Math.floor(Math.random() * 1000000);
+
+    const arrImage = [
+      {
+        image:
+          'https://image3.tienphong.vn/w665/Uploaded/2020/dg_bfjysszl/2020_08_22/1_tdqy.jpg',
+        name: 'amana19',
+        description:
+          'Ông trời đã ban cho tôi nhan sắc, Nhưng lại lấy đi những người công nhận điều đó😭😭😭😭',
+      },
+      {
+        image:
+          'https://media.thethao247.vn/upload/cuongnm/2020/04/28/guc-nga-truoc-nhan-sac-cua-hot-girl-bong-ro-xinh-dep-nhat-trung-quoc1588047165.jpg',
+        name: 'beatrix19',
+        description:
+          'Trái tim anh là nơi dù có đi đến tận cùng thế giới, em vẫn muốn quay trở về.🤗🤗',
+      },
+      {
+        image:
+          'https://photo-1-baomoi.zadn.vn/w1000_r1/2020_05_02_180_34912744/288e03366d75842bdd64.jpg',
+        name: 'Gwen',
+        description:
+          'Vốn định sẵn là không duyên..cớ sau ông trời lại cho ta gặp gỡ.🤗🤗🤗',
+      },
+      {
+        image:
+          'https://icdn.dantri.com.vn/thumb_w/640/2020/07/21/nhung-hot-girl-viet-chuan-bi-buoc-vao-ky-thi-tot-nghiep-thpt-quoc-gia-nam-naydocx-1595346639604.jpeg',
+        name: 'helen99',
+        description:
+          'Tôi muốn ăn ít đi,Cho lòng nhẹ nhàng nhất, Tôi muốn ăn ít lại, Cho mình dừng cute!🤗🤗🤗🤗🤗',
+      },
+      {
+        image:
+          'https://photo-1-baomoi.zadn.vn/w1000_r1/2020_04_15_180_34718461/cf6ada6aa3294a771338.jpg',
+        name: 'irene',
+        description:
+          'Các bạn FA đừng có than thở là trung thu không có gấu nữa. Vì bình thường các bạn cũng làm gì có gấu đâu.🤗😛🤗😛🤗😛🤗😛',
+      },
+      {
+        image:
+          'https://tapchisieuxe.com/uploads/images/bai-viet/van-hoa-sieu-xe/van-hoa-do-xe-nhat-ban/van-hoa-do-sieu-xe-o-nhat-ban-doc-dao-va-dien-ro-so-mot-the-gioi-0.jpg',
+        name: 'Bosozoku ',
+        description: 'Lực xe tốt, dàn hơi tốt 😉😉😉',
+      },
+      {
+        image:
+          'https://cuocsongantoan.vn/stores/news_dataimages/hang.nguyen/032020/27/10/lap-sai-cap-canh-cua-lamborghini-trieu-hoi-26-sieu-xe-aventador-svj-59-.0970.jpg',
+        name: 'Aventador SVJ',
+        description:
+          'Hãy là chính mình bình thường chứ không tầm thường ✍️✍️✍️',
+      },
+      {
+        image: 'https://hvuh.edu.vn/wp-content/uploads/2018/10/c02-2_jpg.jpg',
+        name: 'store88',
+        description:
+          'SÁCH LÀ NƠI LƯU GIỮ NỀN VĂN MINH, KHÔNG CÓ SÁCH, LỊCH SỬ TRẦM LẶNG, VĂN CHƯƠNG BUỒN CHÁN✍️✍️✍️',
+      },
+    ];
+    const randomImage = Math.floor(Math.random() * arrImage.length);
+
+    if (dataPage.length > 20) {
+      return (
+        <p style={{ textAlign: 'center' }}>
+          <b>Yay! You have seen it all</b>
+        </p>
+      );
+    } else {
+      setTimeout(() => {
+        setDataPage(
+          dataPage.concat({
+            id: dataPage.length,
+            // name: 'JOHN',
+            avatar: arrImage[randomImage].image,
+            image: arrImage[randomImage].image,
+            checkLike: false,
+            description: `${arrImage[randomImage].description}`,
+            like: randomLike,
+            limit: 30,
+            name: arrImage[randomImage].name,
+            time: 'VỪA XONG',
+          })
+        );
+      }, 1500);
+    }
+  };
 
   //Handle Count Comment
   // const [countComment, setCountComment] = useState(0);
@@ -302,7 +389,8 @@ function PageLoadInfo() {
   //Handle Load Item Page
   const loadItemPage = () => {
     if (dataPage.length === 0) {
-      return <LoadingData />;
+      // return <LoadingData />;
+      return <LoadingDataPage />;
     }
     if (dataPage.length !== 0) {
       return (
@@ -310,8 +398,19 @@ function PageLoadInfo() {
 
         <InfiniteScroll
           dataLength={dataPage.length}
-          next={() => setPage(page + 1)}
+          // next={() => setPage(page + 1)}
+          next={() => fetDataLoad()}
+          loader={
+            <h4 id="loa" style={{ textAlign: 'center' }}>
+              Loading...
+            </h4>
+          }
           hasMore={true}
+          endMessage={
+            <p style={{ textAlign: 'center' }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
         >
           {dataPage?.map((item) => {
             return (
@@ -320,7 +419,7 @@ function PageLoadInfo() {
                 <div className="product__content__item__first">
                   <div className="product__content__item__first__left">
                     <div className="img">
-                      <img src={item.avatar} alt="Avarta image" />
+                      <img src={item?.avatar} alt="Avarta image" />
                     </div>
                     <p>{item.name}</p>
                   </div>
@@ -331,7 +430,7 @@ function PageLoadInfo() {
                 {/* end Avartar */}
                 {/* Begin Image Full */}
                 <div className="product__content__item__containImage">
-                  <img src={item.image} />
+                  <img src={item?.image} />
                 </div>
                 {/* End Image  */}
 
@@ -363,14 +462,18 @@ function PageLoadInfo() {
                 {/* End Box Like */}
                 {/* View Like */}
                 <div className="product__content__item__view">
-                  <p>{item.like.toLocaleString()} lượt thích</p>
+                  <p>
+                    {item.like ? item?.like.toLocaleString() : item.like} lượt
+                    thích
+                  </p>
                 </div>
                 {/* End view Like */}
                 {/* Name and Comment */}
                 <div className="product__content__item__comment">
                   <h1>{item.name}</h1>
                   <p>
-                    {item.description.length > item.limit ? (
+                    {item.description &&
+                    item?.description.length > item.limit ? (
                       <React.Fragment>
                         {`${item.description.slice(0, item.limit)}... `}
                         <span
@@ -386,6 +489,7 @@ function PageLoadInfo() {
                     ) : (
                       item.description
                     )}
+                    {/* {} */}
                   </p>
                 </div>
                 {/* End Name and comment */}

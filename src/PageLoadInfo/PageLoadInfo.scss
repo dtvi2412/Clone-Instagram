@@ -213,6 +213,10 @@
         }
     }
 }
+// #loa{
+//     animation: updown linear 0.8s infinite alternate;
+// }
+
 //370px
 @media only screen and (max-width:370px){
     .product{
@@ -256,5 +260,13 @@
                 }
             }
         }
+    }
+}
+@keyframes updown{
+    from{
+        transform: translateY(0);
+    }
+    to{
+        transform: translateY(10px);
     }
 }

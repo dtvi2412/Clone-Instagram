@@ -10,6 +10,8 @@ function Main() {
   const [img, setImg] = useState('');
   const [name, setName] = useState('');
   const [loadMain, setLoadMain] = useState(false);
+  //DataPage in firebase
+  const [dataPage, setDataPage] = useState([]);
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
@@ -23,6 +25,19 @@ function Main() {
         // No user is signed in.
         console.log('ERR');
       }
+    });
+
+    //GET LENGTH DATA
+    let dataPageInFirebase = firebase.database().ref('dataPage');
+
+    dataPageInFirebase.on('value', (notes) => {
+      let arr = [];
+      notes.forEach((ele) => {
+        let obj = {};
+        obj.id = ele.val().id;
+        arr.push(obj);
+      });
+      setDataPage(arr);
     });
   }, []);
   const infoBox = [
@@ -114,6 +129,27 @@ function Main() {
     });
   };
 
+  //Handle Post Instagram
+  const handlePostInstagram = () => {
+    let database = firebase.database().ref('dataPage');
+    console.log(dataPage.length);
+    database.push({
+      id: dataPage.length,
+      name: auth.currentUser.displayName
+        ? auth.currentUser.displayName
+        : auth.currentUser.email,
+      like: 0,
+      avatar: auth.currentUser.photoURL
+        ? auth.currentUser.photoURL
+        : 'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
+      checkLike: false,
+      image:
+        'https://znews-photo.zadn.vn/w660/Uploaded/izhqv/2019_11_24/7A073345F2F74833860073F1EE4892DE.jpeg',
+      description: 'Ok done',
+      limit: 30,
+      time: 'VỪA XONG',
+    });
+  };
   return (
     <React.Fragment>
       {loadMain ? (
@@ -138,8 +174,13 @@ function Main() {
                 </div>
 
                 <div className="main__content__right__bottom">
-                  <h5></h5>
-                  <h1>{name ? name : <LoadingData />}</h1>
+                  {/* <h5>+</h5> */}
+                  <h1>
+                    {name ? name : <LoadingData />}
+                    {/* POST INSTAGRAM */}
+                    {/* <div onClick={() => handlePostInstagram()}>POST </div> */}
+                    {/* END POST */}
+                  </h1>
                 </div>
               </div>
               {/* Goi y */}
